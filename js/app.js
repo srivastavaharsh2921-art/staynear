@@ -70,7 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
   const page = path.substring(path.lastIndexOf('/') + 1);
   
-  if (page === 'signup.html') {
+  if (page === '' || page === 'index.html') {
+    initLandingPage();
+  } else if (page === 'signup.html') {
     initSignupPage();
   } else if (page === 'login.html') {
     initLoginPage();
@@ -86,6 +88,34 @@ document.addEventListener('DOMContentLoaded', () => {
     initOwnerPage();
   }
 });
+
+// Require authentication before allowing visitors to leave the landing page
+// for a feature that needs an account.
+function initLandingPage() {
+  const protectedLinks = document.querySelectorAll('[data-auth-required]');
+
+  protectedLinks.forEach(link => {
+    link.addEventListener('click', (event) => {
+      if (getCurrentUser()) {
+        return;
+      }
+
+      event.preventDefault();
+      const destination = link.getAttribute('href');
+      if (destination) {
+        window.location.href = `login.html?redirect=${encodeURIComponent(destination)}`;
+      }
+    });
+  });
+}
+
+function getAuthRedirect() {
+  const redirect = new URLSearchParams(window.location.search).get('redirect');
+  if (!redirect || redirect.startsWith('/') || redirect.includes(':')) {
+    return null;
+  }
+  return redirect;
+}
 
 // Setup mobile menus and active login navigation states
 function setupNavigation() {
@@ -278,8 +308,9 @@ function initLoginPage() {
         saveUserPreferences(currentPrefs);
       }
       
-      // Navigate straight to search results page
-      window.location.href = 'results.html';
+      // Return to the feature that requested authentication when applicable.
+      const redirect = getAuthRedirect();
+      window.location.href = redirect || 'results.html';
     });
   }
 
