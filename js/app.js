@@ -138,7 +138,7 @@ function setupNavigation() {
     } else {
       headerActions.innerHTML = `
         <a href="login.html" class="btn btn-text">Login</a>
-        <a href="signup.html" class="btn btn-primary">Get Started</a>
+        <a href="login.html" class="btn btn-primary">Get Started</a>
       `;
     }
   }
@@ -153,7 +153,7 @@ function setupNavigation() {
     } else {
       mobileNavActions.innerHTML = `
         <a href="login.html" class="btn btn-outline">Login</a>
-        <a href="signup.html" class="btn btn-accent">Get Started</a>
+        <a href="login.html" class="btn btn-accent">Get Started</a>
       `;
     }
   }
