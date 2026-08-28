@@ -20,9 +20,9 @@ function setupNavigation() {
   const user = currentUser();
   const header = document.getElementById('header-actions');
   const mobile = document.getElementById('mobile-nav-actions');
-  const markup = user ? `<a href="profile.html" class="btn btn-outline"><span class="icon-user"></span> ${user.name.split(' ')[0]}</a><button id="nav-logout-btn" class="btn btn-text">Logout</button>` : '<a href="login.html" class="btn btn-text">Login</a><a href="signup.html" class="btn btn-primary">Get Started</a>';
+  const markup = user ? `<a href="profile.html" class="btn btn-outline"><span class="icon-user"></span> ${user.name.split(' ')[0]}</a><button id="nav-logout-btn" class="btn btn-text">Logout</button>` : '<a href="login.html" class="btn btn-text">Login</a><a href="login.html" class="btn btn-primary">Get Started</a>';
   if (header) header.innerHTML = markup;
-  if (mobile) mobile.innerHTML = user ? '<a href="profile.html" class="btn btn-outline">Profile</a><button id="mobile-logout-btn" class="btn btn-primary">Logout</button>' : '<a href="login.html" class="btn btn-outline">Login</a><a href="signup.html" class="btn btn-accent">Get Started</a>';
+  if (mobile) mobile.innerHTML = user ? '<a href="profile.html" class="btn btn-outline">Profile</a><button id="mobile-logout-btn" class="btn btn-primary">Logout</button>' : '<a href="login.html" class="btn btn-outline">Login</a><a href="login.html" class="btn btn-accent">Get Started</a>';
   document.querySelectorAll('#nav-logout-btn, #mobile-logout-btn').forEach(button => button.addEventListener('click', signOut));
   const burger = document.getElementById('burger-menu');
   const nav = document.getElementById('mobile-nav');
@@ -32,6 +32,19 @@ function setupNavigation() {
     burger.addEventListener('click', toggle);
     backdrop.addEventListener('click', toggle);
   }
+}
+
+function setupLandingPage() {
+  document.querySelectorAll('[data-auth-required]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (currentUser()) return;
+      event.preventDefault();
+      const destination = link.getAttribute('href');
+      if (destination) {
+        window.location.href = `login.html?redirect=${encodeURIComponent(destination)}`;
+      }
+    });
+  });
 }
 
 async function initAuthPage(type) {
@@ -69,7 +82,8 @@ async function initAuthPage(type) {
       }
       const result = await api.auth[type](body);
       setUser(result.user);
-      window.location.href = type === 'signup' ? 'onboarding.html' : 'results.html';
+      const redirect = new URLSearchParams(window.location.search).get('redirect');
+      window.location.href = type === 'signup' ? 'onboarding.html' : (redirect || 'results.html');
     } catch (requestError) { showError(errorAlert, requestError.message); }
   });
 }
@@ -151,25 +165,11 @@ async function initOwner() {
 
 function initApp() { 
   setupNavigation(); 
-  let page = location.pathname.split('/').pop().replace('.html', ''); 
-  if (page === '') page = 'index'; // Handle root URL (http://localhost:5000/)
-  
-  // Setup password toggles
-  document.querySelectorAll('.password-toggle').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-      const input = toggle.previousElementSibling;
-      if (input && input.tagName === 'INPUT') {
-        const isPassword = input.type === 'password';
-        input.type = isPassword ? 'text' : 'password';
-        toggle.style.opacity = isPassword ? '0.5' : '1';
-      }
-    });
-  });
-
-  const publicPages = ['login', 'signup'];
-  const user = currentUser();
-  
-  if (!publicPages.includes(page) && !user) {
+   let page = location.pathname.split('/').pop().replace('.html', '');
+  if (!page || page === 'index') {
+    page = 'index';
+    setupLandingPage();
+  }
     window.location.href = 'login.html';
     return;
   }
