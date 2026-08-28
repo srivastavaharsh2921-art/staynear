@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — StayNear</title>
+  <meta name="description" content="View saved accommodations, edit preferences, and manage your StayNear account.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Dynamic Header Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        StayNear<span class="logo-dot"></span>
+      </a>
+      
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="results.html">Browse Stays</a></li>
+          <li><a href="owner.html">For Property Owners</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div id="header-actions">
+          <!-- Dynamically populated via js/app.js -->
+        </div>
+        
+        <button id="burger-menu" class="burger-menu" aria-label="Toggle Navigation Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Sidebar -->
+  <div id="mobile-backdrop" class="mobile-backdrop"></div>
+  <div id="mobile-nav" class="mobile-nav">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="results.html">Browse Stays</a></li>
+      <li><a href="owner.html">For Property Owners</a></li>
+    </ul>
+    <div id="mobile-nav-actions" class="mobile-nav-actions">
+      <!-- Dynamically populated via js/app.js -->
+    </div>
+  </div>
+
+  <!-- Profile Layout -->
+  <main class="container profile-page">
+    <div class="profile-grid">
+      
+      <!-- Left Column: User Profile Badge -->
+      <aside class="profile-sidebar">
+        <div id="profile-avatar-letters" class="profile-avatar">U</div>
+        <h2 id="profile-name">Student Name</h2>
+        <p id="profile-email">student@college.edu</p>
+        
+        <!-- Summary preferences meta data list -->
+        <div class="profile-sidebar-meta">
+          <div class="profile-meta-row">
+            <span>College:</span>
+            <strong id="pref-display-college">Dev Bhoomi Uttarakhand University</strong>
+          </div>
+          <div class="profile-meta-row">
+            <span>Preferences:</span>
+            <strong id="pref-display-type">PG, Shared Room</strong>
+          </div>
+          <div class="profile-meta-row">
+            <span>Monthly Budget:</span>
+            <strong id="pref-display-budget">Under ₹8,000</strong>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Column: Preferences form & Saved Properties list -->
+      <div class="profile-content">
+        
+        <!-- Preferences editing section -->
+        <section class="profile-section">
+          <h2>My Accommodations Preferences</h2>
+          <form id="preferences-form">
+            <div class="preferences-form-grid">
+              
+              <!-- Stay Types -->
+              <div class="input-group">
+                <label style="margin-bottom: 0.5rem;">Accommodation Types</label>
+                <div class="filter-group">
+                  <label class="filter-checkbox-label">
+                    <input type="checkbox" class="pref-type-checkbox" value="PG"> PG (Paying Guest)
+                  </label>
+                  <label class="filter-checkbox-label">
+                    <input type="checkbox" class="pref-type-checkbox" value="Private Room"> Private Room
+                  </label>
+                  <label class="filter-checkbox-label">
+                    <input type="checkbox" class="pref-type-checkbox" value="Shared Room"> Shared Room
+                  </label>
+                  <label class="filter-checkbox-label">
+                    <input type="checkbox" class="pref-type-checkbox" value="Hostel"> Student Hostel
+                  </label>
+                </div>
+              </div>
+
+              <!-- Budget -->
+              <div class="input-group">
+                <label for="pref-form-budget" style="margin-bottom: 0.5rem;">Budget Limit</label>
+                <select id="pref-form-budget" class="input-control" style="background-color: var(--bg-light); font-weight: 500;">
+                  <option value="under-5000">Under ₹5,000 / month</option>
+                  <option value="5000-8000">₹5,000 – ₹8,000 / month</option>
+                  <option value="8000-12000">₹8,000 – ₹12,000 / month</option>
+                  <option value="above-12000">Above ₹12,000 / month</option>
+                </select>
+              </div>
+
+            </div>
+
+            <!-- Amenities preferences checkboxes -->
+            <div class="input-group" style="margin-top: 1.5rem;">
+              <label style="margin-bottom: 0.75rem;">Amenities Needed</label>
+              <div class="checkbox-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <label class="filter-checkbox-label">
+                  <input type="checkbox" class="pref-amenity-checkbox" value="WiFi"> WiFi Broadband
+                </label>
+                <label class="filter-checkbox-label">
+                  <input type="checkbox" class="pref-amenity-checkbox" value="Food"> Food Included
+                </label>
+                <label class="filter-checkbox-label">
+                  <input type="checkbox" class="pref-amenity-checkbox" value="Attached bathroom"> Attached Bathroom
+                </label>
+                <label class="filter-checkbox-label">
+                  <input type="checkbox" class="pref-amenity-checkbox" value="Laundry"> Laundry
+                </label>
+                <label class="filter-checkbox-label">
+                  <input type="checkbox" class="pref-amenity-checkbox" value="Parking"> Parking Space
+                </label>
+                <label class="filter-checkbox-label">
+                  <input type="checkbox" class="pref-amenity-checkbox" value="Furnished"> Furnished
+                </label>
+                <label class="filter-checkbox-label">
+                  <input type="checkbox" class="pref-amenity-checkbox" value="Security"> 24/7 Security
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 2rem;">
+              Save Updated Preferences
+            </button>
+          </form>
+        </section>
+
+        <!-- Saved Properties Section -->
+        <section class="profile-section">
+          <h2>Saved Accommodations (Favourites)</h2>
+          <div id="saved-properties-grid" class="properties-grid">
+            <!-- Populated dynamically via js/app.js profile favorites drawer -->
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>&copy; 2026 StayNear. All rights reserved. Naugaon, Dehradun.</p>
+        <div class="footer-bottom-links">
+          <a href="results.html">Browse Accommodations</a>
+          <a href="index.html">Home</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Central database must be loaded prior to app controller -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

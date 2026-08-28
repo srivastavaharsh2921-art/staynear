@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Details — StayNear</title>
+  <meta name="description" content="Detailed photos, amenities, room plans, maps, and direct contact info of verified student properties.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Dynamic Header Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        StayNear<span class="logo-dot"></span>
+      </a>
+      
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="results.html">Browse Stays</a></li>
+          <li><a href="owner.html">For Property Owners</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div id="header-actions">
+          <!-- Dynamically populated via js/app.js -->
+        </div>
+        
+        <button id="burger-menu" class="burger-menu" aria-label="Toggle Navigation Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Sidebar -->
+  <div id="mobile-backdrop" class="mobile-backdrop"></div>
+  <div id="mobile-nav" class="mobile-nav">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="results.html">Browse Stays</a></li>
+      <li><a href="owner.html">For Property Owners</a></li>
+    </ul>
+    <div id="mobile-nav-actions" class="mobile-nav-actions">
+      <!-- Dynamically populated via js/app.js -->
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <main class="container prop-detail-page">
+    
+    <!-- Back Button -->
+    <a href="results.html" class="prop-back-btn">← Back to Search Results</a>
+
+    <!-- Images Gallery Grid -->
+    <div class="prop-gallery">
+      <div class="prop-main-img-box">
+        <img id="prop-main-img" src="" alt="Main Property Image">
+      </div>
+      <div id="prop-thumbs" class="prop-thumbs-col">
+        <!-- Thumbnails populated dynamically via js/app.js -->
+      </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="prop-detail-grid">
+      
+      <!-- Left Panel: Property Information -->
+      <section>
+        <div class="prop-info-header">
+          <div class="prop-title-row">
+            <h1 id="prop-name">Comfort Nest PG</h1>
+            <!-- Save/Favorite button -->
+            <button id="prop-save-btn" class="btn btn-outline" style="border-radius: 50px; flex-shrink: 0;">
+              🤍 Save Property
+            </button>
+          </div>
+          
+          <div class="prop-meta-info">
+            <div class="prop-meta-item">
+              <span id="prop-badge" class="facility-tag" style="background-color: var(--primary-color); color: var(--bg-white); font-weight: 700;">PG</span>
+            </div>
+            <div class="prop-meta-item">
+              <span id="prop-rating" class="rating-star">★ 4.6 (Verified)</span>
+            </div>
+            <div class="prop-meta-item">
+              <span class="icon-loc"></span> <span id="prop-location">Naugaon, Dehradun</span>
+            </div>
+            <div class="prop-meta-item" style="background: var(--border-color); color: var(--text-main); font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
+              <span id="prop-distance">0.6 km from DBUU</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description Section -->
+        <div class="prop-section">
+          <h3>Property Description</h3>
+          <p id="prop-description" class="prop-desc">
+            A premium student accommodation offering spacious double sharing rooms. Comfort Nest is located in a quiet neighborhood, ensuring a study-friendly environment with home-like food, top-tier high-speed WiFi, laundry services, and 24/7 security.
+          </p>
+        </div>
+
+        <!-- Facilities Section -->
+        <div class="prop-section">
+          <h3>Facilities & Amenities</h3>
+          <div id="prop-facilities-grid" class="prop-facilities-grid">
+            <!-- Populated via js/app.js -->
+          </div>
+        </div>
+
+        <!-- Room Information Section -->
+        <div class="prop-section">
+          <h3>Room Information</h3>
+          <div class="room-details-grid">
+            <div class="room-stat-card">
+              <p>Occupancy</p>
+              <h4 id="room-occupancy">Double Sharing</h4>
+            </div>
+            <div class="room-stat-card">
+              <p>Type</p>
+              <h4 id="room-type">PG</h4>
+            </div>
+            <div class="room-stat-card">
+              <p>Available Rooms</p>
+              <h4 id="room-available">3 Rooms</h4>
+            </div>
+            <div class="room-stat-card">
+              <p>Deposit</p>
+              <h4 id="room-deposit">₹6,500</h4>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location Map Placeholder -->
+        <div class="prop-section">
+          <h3>Location</h3>
+          <div class="map-placeholder">
+            <div class="map-bg-grid"></div>
+            <div class="map-pin">📍</div>
+            <div class="map-label">Near Dev Bhoomi Uttarakhand University (Naugaon)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Panel: Sticky Contact Card -->
+      <aside>
+        <div class="booking-widget">
+          <div class="widget-price-row">
+            <div class="widget-price">
+              <h3 id="widget-rent">₹6,500<span>/month</span></h3>
+            </div>
+            <div id="widget-deposit" class="widget-deposit">
+              <strong>₹6,500</strong> Security Deposit
+            </div>
+          </div>
+
+          <div class="widget-buttons">
+            <!-- Direct Dial Trigger -->
+            <a id="btn-call" href="#" class="btn btn-primary btn-accent" style="width: 100%; height: 3rem;">
+              <span class="icon-phone"></span> Call Property Owner
+            </a>
+            
+            <!-- WhatsApp Trigger -->
+            <a id="btn-whatsapp" href="#" target="_blank" class="btn btn-whatsapp" style="width: 100%; height: 3rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+              <span class="icon-wa"></span> WhatsApp Message
+            </a>
+          </div>
+
+          <p class="widget-disclaimer">
+            Zero brokerage. Always inspect properties and review rental agreements in-person before transferring deposits.
+          </p>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>&copy; 2026 StayNear. All rights reserved. Naugaon, Dehradun.</p>
+        <div class="footer-bottom-links">
+          <a href="results.html">Back to Search</a>
+          <a href="index.html">Home</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Central database must be loaded prior to app controller -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

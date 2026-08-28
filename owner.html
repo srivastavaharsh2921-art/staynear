@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List Your Property — StayNear</title>
+  <meta name="description" content="Host PGs, hostels, or student rooms near DBUU on StayNear. Reach thousands of university students in Dehradun directly.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Dynamic Header Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        StayNear<span class="logo-dot"></span>
+      </a>
+      
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="results.html">Browse Stays</a></li>
+          <li><a href="owner.html" class="active">For Property Owners</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div id="header-actions">
+          <!-- Dynamically populated via js/app.js -->
+        </div>
+        
+        <button id="burger-menu" class="burger-menu" aria-label="Toggle Navigation Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Sidebar -->
+  <div id="mobile-backdrop" class="mobile-backdrop"></div>
+  <div id="mobile-nav" class="mobile-nav">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="results.html">Browse Stays</a></li>
+      <li><a href="owner.html" class="active">For Property Owners</a></li>
+    </ul>
+    <div id="mobile-nav-actions" class="mobile-nav-actions">
+      <!-- Dynamically populated via js/app.js -->
+    </div>
+  </div>
+
+  <!-- Main Content Layout -->
+  <main class="owner-page">
+    <div class="container">
+      
+      <!-- Host Promo Hero Banner -->
+      <div class="owner-hero">
+        <h1>List your property on StayNear</h1>
+        <p>Connect with university students looking for verified accommodations near Dev Bhoomi Uttarakhand University (DBUU) in Naugaon, Dehradun.</p>
+      </div>
+
+      <!-- Listing Submit Form Card Box -->
+      <section class="owner-form-box">
+        
+        <!-- Form container -->
+        <form id="owner-form">
+          <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--primary-color);">Property & Owner Details</h2>
+          
+          <div class="form-grid-2">
+            <!-- Owner Name -->
+            <div class="input-group">
+              <label for="owner-name">Owner Full Name *</label>
+              <input type="text" id="owner-name" class="input-control" placeholder="Enter your full name" required>
+            </div>
+            
+            <!-- Contact Number -->
+            <div class="input-group">
+              <label for="owner-phone">Mobile Phone Number *</label>
+              <input type="tel" id="owner-phone" class="input-control" placeholder="+91 98765 43210" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <!-- Property Name -->
+            <div class="input-group">
+              <label for="owner-prop-name">Property Name *</label>
+              <input type="text" id="owner-prop-name" class="input-control" placeholder="e.g. Comfort Nest PG / Student Haven" required>
+            </div>
+
+            <!-- Property Category Selection -->
+            <div class="input-group">
+              <label for="owner-prop-type">Accommodation Type *</label>
+              <select id="owner-prop-type" class="input-control" style="background-color: var(--bg-light); font-weight: 500;" required>
+                <option value="" disabled selected>Select stay type</option>
+                <option value="PG">PG (Paying Guest)</option>
+                <option value="Private Room">Private Room</option>
+                <option value="Shared Room">Shared Room</option>
+                <option value="Hostel">Student Hostel</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <!-- Location Area -->
+            <div class="input-group">
+              <label for="owner-prop-loc">Area / Landmark *</label>
+              <input type="text" id="owner-prop-loc" class="input-control" placeholder="e.g. Naugaon, Chakrata Road, Dehradun" required>
+            </div>
+
+            <!-- Rental Price -->
+            <div class="input-group">
+              <label for="owner-prop-rent">Monthly Rental Price (₹) *</label>
+              <input type="number" id="owner-prop-rent" class="input-control" placeholder="e.g. 6000" min="100" required>
+            </div>
+          </div>
+
+          <!-- Amenities Choices Grid Checklist -->
+          <div class="checkbox-group">
+            <label>Amenities Offered</label>
+            <div class="checkbox-grid">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="owner-facility" value="WiFi"> WiFi Broadband
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="owner-facility" value="Food"> Food / Meals
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="owner-facility" value="Attached bathroom"> Attached Bathroom
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="owner-facility" value="Laundry"> Laundry Washing
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="owner-facility" value="Parking"> Parking Space
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="owner-facility" value="Furnished"> Furnished Rooms
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="owner-facility" value="Security"> 24/7 Security Guards
+              </label>
+            </div>
+          </div>
+
+          <!-- Description Box -->
+          <div class="input-group" style="margin-bottom: 2rem;">
+            <label for="owner-prop-desc">Property Description</label>
+            <textarea id="owner-prop-desc" class="input-control" placeholder="Write a short description highlighting proximity, housekeeping, or student guidelines..." style="height: 120px; resize: vertical; font-family: inherit; padding: 0.75rem 1rem;"></textarea>
+          </div>
+
+          <!-- Submission Button -->
+          <button type="submit" class="btn btn-primary" style="padding: 0.875rem 2rem; font-size: 1rem;">
+            Submit Property Listing 🚀
+          </button>
+        </form>
+
+        <!-- Animated Success banner panel (Initially Hidden) -->
+        <div id="success-banner" class="success-banner">
+          <div class="success-icon">✓</div>
+          <h2>Listing Submitted Successfully!</h2>
+          <p>Thank you for submitting your student accommodation listing. Our team will review the details and verify the physical location within 24 hours to make it visible to students.</p>
+          <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+            <button id="list-another-btn" class="btn btn-outline">List Another Property</button>
+            <a href="results.html" class="btn btn-primary">Browse Marketplace</a>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>&copy; 2026 StayNear. All rights reserved. Naugaon, Dehradun.</p>
+        <div class="footer-bottom-links">
+          <a href="index.html">Back to Home</a>
+          <a href="results.html">Browse Accommodations</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
