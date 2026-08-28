@@ -132,10 +132,16 @@ function initApp() {
   let page = location.pathname.split('/').pop().replace('.html', ''); 
   if (page === '') page = 'index'; // Handle root URL (http://localhost:5000/)
   
-  // Make the entire website private (except login and signup)
   const publicPages = ['login', 'signup'];
-  if (!publicPages.includes(page) && !currentUser()) {
+  const user = currentUser();
+  
+  if (!publicPages.includes(page) && !user) {
     window.location.href = 'login.html';
+    return;
+  }
+  
+  if (publicPages.includes(page) && user) {
+    window.location.href = 'results.html';
     return;
   }
 
