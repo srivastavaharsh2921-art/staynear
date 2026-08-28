@@ -87,7 +87,29 @@ async function initOnboarding() {
   document.querySelectorAll('.vertical-option').forEach(option => option.addEventListener('click', () => { document.querySelectorAll('.vertical-option').forEach(item => item.classList.remove('selected')); option.classList.add('selected'); state.budget = option.dataset.budget; }));
   document.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => { chip.classList.toggle('selected'); state.amenities = [...document.querySelectorAll('.chip.selected')].map(item => item.dataset.facility); }));
   function update() { steps.forEach((step, index) => step.classList.toggle('active', index + 1 === current)); previous.style.visibility = current === 1 ? 'hidden' : 'visible'; next.textContent = current === steps.length ? 'Find My Stay' : 'Continue'; document.getElementById('progress-fill').style.width = `${current / steps.length * 100}%`; document.getElementById('progress-text-label').textContent = `Step ${current} of ${steps.length}`; }
-  next.addEventListener('click', async () => { if (current === 1 && !name.value.trim()) return alert('Please enter your name to proceed.'); if (current === 3 && !state.stayType.length) return alert('Please select at least one accommodation type.'); if (current === 4 && !state.budget) return alert('Please select a budget range.'); if (current < steps.length) { if (current === 1) state.name = name.value.trim(); current += 1; update(); return; } await api.user.updateProfile({ name: state.name }); const result = await api.user.updatePreferences(state); const user = currentUser(); user.name = state.name; user.preferences = result.user.preferences; setUser(user); window.location.href = 'results.html'; });
+  next.addEventListener('click', async () => { 
+    if (current === 1 && !name.value.trim()) return alert('Please enter your name to proceed.'); 
+    if (current === 3 && !state.stayType.length) return alert('Please select at least one accommodation type.'); 
+    if (current === 4 && !state.budget) return alert('Please select a budget range.'); 
+    if (current < steps.length) { 
+        if (current === 1) state.name = name.value.trim(); 
+        current += 1; 
+        update(); 
+        return; 
+    } 
+    try {
+      await api.user.updateProfile({ name: state.name }); 
+      const { name: _name, ...prefs } = state; // Remove name before sending to strict preferences schema
+      const result = await api.user.updatePreferences(prefs); 
+      const user = currentUser(); 
+      user.name = state.name; 
+      user.preferences = result.user.preferences; 
+      setUser(user); 
+      window.location.href = 'results.html'; 
+    } catch (e) {
+      alert('Error saving preferences: ' + e.message);
+    }
+  });
   previous.addEventListener('click', () => { if (current > 1) { current -= 1; update(); } });
   update();
 }

@@ -16,7 +16,18 @@ import { adminRoutes } from './routes/admin.routes.js';
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const app = express();
 app.disable('x-powered-by');
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://*.googleusercontent.com"],
+      connectSrc: ["'self'"],
+    },
+  },
+}));
 app.use(corsMiddleware);
 app.use(express.json({ limit: '1mb' }));
 app.use('/api', apiRateLimit);
