@@ -1,0 +1,10 @@
+import type { Request, Response } from 'express';
+import { Types } from 'mongoose';
+import * as service from '../services/property.service.js';
+import { sendError, sendSuccess } from '../utils/api-response.js';
+
+export async function list(request: Request, response: Response) { const q = request.query; const amenities = typeof q.amenities === 'string' ? q.amenities.split(',').filter(Boolean) : []; sendSuccess(response, 200, await service.listProperties({ search: typeof q.search === 'string' ? q.search : undefined, type: typeof q.type === 'string' ? q.type : undefined, minRent: q.minRent ? Number(q.minRent) : undefined, maxRent: q.maxRent ? Number(q.maxRent) : undefined, amenities, city: typeof q.city === 'string' ? q.city : undefined, occupancy: typeof q.occupancy === 'string' ? q.occupancy : undefined, available: q.available === 'true', page: Math.max(1, Number(q.page) || 1), limit: Math.min(50, Math.max(1, Number(q.limit) || 20)) })); }
+export async function getById(request: Request, response: Response) { const id = String(request.params.id); if (!Types.ObjectId.isValid(id)) return sendError(response, 404, 'NOT_FOUND', 'Property not found'); const property = await service.getProperty(id); return property ? sendSuccess(response, 200, { property }) : sendError(response, 404, 'NOT_FOUND', 'Property not found'); }
+export async function create(request: Request, response: Response) { sendSuccess(response, 201, { property: await service.createProperty(request.user!.id, request.body) }); }
+export async function update(request: Request, response: Response) { const property = await service.updateOwnedProperty(String(request.params.id), request.user!.id, request.body); return property ? sendSuccess(response, 200, { property }) : sendError(response, 404, 'NOT_FOUND', 'Property not found'); }
+export async function remove(request: Request, response: Response) { const property = await service.deleteOwnedProperty(String(request.params.id), request.user!.id); return property ? sendSuccess(response, 200, { property }) : sendError(response, 404, 'NOT_FOUND', 'Property not found'); }

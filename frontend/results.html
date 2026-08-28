@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Accommodations — StayNear</title>
+  <meta name="description" content="Discover verified student rooms, hostels, and PGs near DBUU. Apply filters for budget, food, and facilities.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Dynamic Header Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        StayNear<span class="logo-dot"></span>
+      </a>
+      
+      <!-- Current Location Tag -->
+      <div style="font-size: 0.9rem; font-weight: 600; background-color: var(--accent-light); color: var(--accent-color); padding: 0.35rem 0.75rem; border-radius: 50px; display: flex; align-items: center; gap: 0.25rem;">
+        <span>📍</span> DBUU, Naugaon
+      </div>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="results.html" class="active">Browse Stays</a></li>
+          <li><a href="owner.html">For Property Owners</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div id="header-actions">
+          <!-- Dynamically populated via js/app.js -->
+        </div>
+        
+        <button id="burger-menu" class="burger-menu" aria-label="Toggle Navigation Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Sidebar -->
+  <div id="mobile-backdrop" class="mobile-backdrop"></div>
+  <div id="mobile-nav" class="mobile-nav">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="results.html" class="active">Browse Stays</a></li>
+      <li><a href="owner.html">For Property Owners</a></li>
+    </ul>
+    <div id="mobile-nav-actions" class="mobile-nav-actions">
+      <!-- Dynamically populated via js/app.js -->
+    </div>
+  </div>
+
+  <!-- Marketplace Layout -->
+  <main class="container results-page">
+    <div class="results-header-info">
+      <h1>Find your perfect stay</h1>
+      <p>Showing student accommodations near Dev Bhoomi Uttarakhand University, Dehradun</p>
+    </div>
+
+    <!-- Search and tab category filter wrapper -->
+    <div class="search-filter-row">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" class="search-input" placeholder="Search by PG name, location, or landmark...">
+      </div>
+    </div>
+
+    <div class="results-layout">
+      <!-- Sidebar Filters Panel -->
+      <aside class="filter-panel">
+        <div class="filter-section">
+          <h3>Stay Type</h3>
+          <div class="category-tabs" style="flex-direction: column; overflow-x: visible; gap: 0.5rem; border: none; padding: 0;">
+            <button class="category-tab active" data-category="All" style="text-align: left; width: 100%;">All Accommodations</button>
+            <button class="category-tab" data-category="PG" style="text-align: left; width: 100%;">PGs (with food)</button>
+            <button class="category-tab" data-category="Private Room" style="text-align: left; width: 100%;">Private Rooms</button>
+            <button class="category-tab" data-category="Shared Room" style="text-align: left; width: 100%;">Shared Rooms</button>
+            <button class="category-tab" data-category="Hostel" style="text-align: left; width: 100%;">Student Hostels</button>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Monthly Budget</h3>
+          <div class="input-wrapper">
+            <select id="filter-budget" class="input-control" style="background-color: var(--bg-light); font-weight: 500;">
+              <option value="All">Any Budget Range</option>
+              <option value="under-5000">Under ₹5,000 / month</option>
+              <option value="5000-8000">₹5,000 – ₹8,000 / month</option>
+              <option value="8000-12000">₹8,000 – ₹12,000 / month</option>
+              <option value="above-12000">Above ₹12,000 / month</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Facilities</h3>
+          <div class="filter-group">
+            <label class="filter-checkbox-label">
+              <input type="checkbox" class="amenity-checkbox" value="WiFi"> WiFi Broadband
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" class="amenity-checkbox" value="Food"> Food / Meals
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" class="amenity-checkbox" value="Attached bathroom"> Attached Bathroom
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" class="amenity-checkbox" value="Laundry"> Laundry Washing
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" class="amenity-checkbox" value="Parking"> Parking Space
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" class="amenity-checkbox" value="Furnished"> Furnished Room
+            </label>
+            <label class="filter-checkbox-label">
+              <input type="checkbox" class="amenity-checkbox" value="Security"> 24/7 Security
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Accommodation Cards Grid -->
+      <section>
+        <div id="properties-grid" class="properties-grid">
+          <!-- Dynamically populated via js/app.js rendering -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>&copy; 2026 StayNear. All rights reserved. Naugaon, Dehradun.</p>
+        <div class="footer-bottom-links">
+          <a href="index.html">Back to Home</a>
+          <a href="owner.html">List Property</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Central database must be loaded prior to app controller -->
+  <script src="js/api.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app-api.js"></script>
+</body>
+</html>
