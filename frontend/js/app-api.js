@@ -132,6 +132,18 @@ function initApp() {
   let page = location.pathname.split('/').pop().replace('.html', ''); 
   if (page === '') page = 'index'; // Handle root URL (http://localhost:5000/)
   
+  // Setup password toggles
+  document.querySelectorAll('.password-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const input = toggle.previousElementSibling;
+      if (input && input.tagName === 'INPUT') {
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        toggle.style.opacity = isPassword ? '0.5' : '1';
+      }
+    });
+  });
+
   const publicPages = ['login', 'signup'];
   const user = currentUser();
   
