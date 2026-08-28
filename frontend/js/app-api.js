@@ -129,11 +129,12 @@ async function initOwner() {
 
 function initApp() { 
   setupNavigation(); 
-  const page = location.pathname.split('/').pop().replace('.html', ''); 
+  let page = location.pathname.split('/').pop().replace('.html', ''); 
+  if (page === '') page = 'index'; // Handle root URL (http://localhost:5000/)
   
-  // Protect specific routes
-  const protectedPages = ['profile', 'owner', 'onboarding'];
-  if (protectedPages.includes(page) && !currentUser()) {
+  // Make the entire website private (except login and signup)
+  const publicPages = ['login', 'signup'];
+  if (!publicPages.includes(page) && !currentUser()) {
     window.location.href = 'login.html';
     return;
   }
