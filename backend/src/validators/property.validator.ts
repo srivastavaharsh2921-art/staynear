@@ -1,0 +1,6 @@
+import { z } from 'zod';
+
+const locationSchema = z.object({ address: z.string().trim().min(3).max(250), area: z.string().trim().min(2).max(100), city: z.string().trim().min(2).max(100), state: z.string().trim().min(2).max(100), landmark: z.string().trim().max(150).optional(), latitude: z.number().optional(), longitude: z.number().optional() });
+const basePropertySchema = z.object({ name: z.string().trim().min(2).max(120), type: z.enum(['PG', 'Private Room', 'Shared Room', 'Hostel']), description: z.string().trim().min(10).max(2000), location: locationSchema, pricing: z.object({ monthlyRent: z.number().min(100), securityDeposit: z.number().min(0) }), rooms: z.object({ occupancy: z.string().trim().min(2).max(80), totalRooms: z.number().int().min(1), availableRooms: z.number().int().min(0) }), amenities: z.array(z.string().max(50)).max(30).default([]), images: z.array(z.string().url()).max(20).default([]) });
+export const propertySchema = basePropertySchema.refine(value => value.rooms.availableRooms <= value.rooms.totalRooms, { message: 'Available rooms cannot exceed total rooms' });
+export const propertyUpdateSchema = basePropertySchema.partial();
