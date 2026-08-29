@@ -1,6 +1,6 @@
+import type { Request, Response } from 'express';
 import { app } from './app.js';
 import { connectDatabase } from './config/database.js';
-import { Request, Response } from 'express';
 
 let isConnected = false;
 
@@ -9,10 +9,10 @@ export default async function handler(req: Request, res: Response) {
     try {
       await connectDatabase();
       isConnected = true;
-    } catch (e) {
-      console.error('Vercel DB Connection Error:', e);
+    } catch (error) {
+      console.error('Vercel DB Connection Error:', error);
     }
   }
+
   return app(req, res);
 }
-
