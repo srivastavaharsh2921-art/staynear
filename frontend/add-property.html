@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Property - StayNear</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-body">
+    <header class="dashboard-navbar">
+        <a class="logo" href="index.html">StayNear</a>
+        <nav>
+            <a href="owner-dashboard.html">Dashboard</a>
+            <a href="add-property.html">Add Property</a>
+            <a href="profile.html">Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+
+    <main class="add-property-main">
+        <a href="owner-dashboard.html" class="back-link">&larr; Back to dashboard</a>
+
+        <div class="add-property-heading">
+            <p class="dashboard-label">PROPERTY LISTING</p>
+            <h1>Add your property</h1>
+            <p>List rooms, PGs, flats or hostels near Uttarakhand universities.</p>
+        </div>
+
+        <form id="propertyForm" class="property-form">
+            <section class="form-section">
+                <h2>Basic information</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propertyName">Property Name</label>
+                        <input type="text" id="propertyName" placeholder="e.g. Sunrise PG" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="propertyType">Property Type</label>
+                        <select id="propertyType" required>
+                            <option value="">Select type</option>
+                            <option value="PG">PG</option>
+                            <option value="Room">Room</option>
+                            <option value="Flat">Flat</option>
+                            <option value="Hostel">Hostel</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propertyUniversity">Nearby University</label>
+                        <select id="propertyUniversity" required></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="propertyLocation">Location</label>
+                        <input type="text" id="propertyLocation" placeholder="e.g. Naugaon, Dehradun" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propertyRent">Monthly Rent</label>
+                        <input type="number" id="propertyRent" placeholder="4500" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="propertyRoom">Room Type</label>
+                        <select id="propertyRoom" required>
+                            <option value="">Select room type</option>
+                            <option value="Single Room">Single Room</option>
+                            <option value="Double Room">Double Room</option>
+                            <option value="Shared Room">Shared Room</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2>Description</h2>
+                <div class="form-group">
+                    <label for="propertyDescription">About your property</label>
+                    <textarea id="propertyDescription" rows="6" placeholder="Describe nearby gates, food, rules, transport and facilities." required></textarea>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2>Amenities</h2>
+                <div class="amenity-checkboxes">
+                    <label><input type="checkbox" name="amenities" value="Wi-Fi"> Wi-Fi</label>
+                    <label><input type="checkbox" name="amenities" value="Food"> Food</label>
+                    <label><input type="checkbox" name="amenities" value="Parking"> Parking</label>
+                    <label><input type="checkbox" name="amenities" value="Electricity"> Electricity</label>
+                    <label><input type="checkbox" name="amenities" value="Water"> Water</label>
+                    <label><input type="checkbox" name="amenities" value="Cleaning"> Cleaning</label>
+                    <label><input type="checkbox" name="amenities" value="Laundry"> Laundry</label>
+                    <label><input type="checkbox" name="amenities" value="CCTV"> CCTV</label>
+                    <label><input type="checkbox" name="amenities" value="Study Desk"> Study Desk</label>
+                </div>
+            </section>
+
+            <button type="submit" class="property-submit-button">Add Property</button>
+        </form>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

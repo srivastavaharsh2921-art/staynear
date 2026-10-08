@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - StayNear</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-body">
+    <header class="dashboard-navbar">
+        <a class="logo" href="index.html">StayNear</a>
+        <nav>
+            <a href="student-dashboard.html">Explore</a>
+            <a href="profile.html">Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+        <section class="dashboard-welcome">
+            <p class="dashboard-label">STUDENT DASHBOARD</p>
+            <h1 id="studentGreeting">Welcome</h1>
+            <p>Find rooms and PGs near Uttarakhand colleges with filters that match daily student life.</p>
+        </section>
+
+        <section class="search-panel">
+            <div class="search-title">
+                <h2>Find your stay</h2>
+                <p>Search by university, location, budget and room type.</p>
+            </div>
+
+            <div class="search-grid">
+                <div class="search-field">
+                    <label for="searchUniversity">University</label>
+                    <select id="searchUniversity"></select>
+                </div>
+
+                <div class="search-field">
+                    <label for="searchLocation">Location</label>
+                    <input type="text" id="searchLocation" placeholder="e.g. Dehradun">
+                </div>
+
+                <div class="search-field">
+                    <label for="searchBudget">Maximum Budget</label>
+                    <input type="number" id="searchBudget" placeholder="e.g. 6000" min="0">
+                </div>
+
+                <div class="search-field">
+                    <label for="searchRoom">Room Type</label>
+                    <select id="searchRoom">
+                        <option value="">Any room</option>
+                        <option value="Single Room">Single Room</option>
+                        <option value="Double Room">Double Room</option>
+                        <option value="Shared Room">Shared Room</option>
+                    </select>
+                </div>
+
+                <button type="button" id="searchPropertyBtn" class="dashboard-search-button">
+                    Search
+                </button>
+            </div>
+        </section>
+
+        <section class="properties-section">
+            <div class="properties-heading">
+                <p class="dashboard-label">AVAILABLE STAYS</p>
+                <h2>Rooms and PGs near campus</h2>
+            </div>
+
+            <div id="propertyGrid" class="property-grid"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

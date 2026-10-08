@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - StayNear</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <a class="logo" href="index.html">StayNear</a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="student-dashboard.html">Dashboard</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+
+    <main class="profile-page">
+        <section class="profile-box">
+            <p class="dashboard-label">MY PROFILE</p>
+            <h1>Account details</h1>
+
+            <div class="profile-info">
+                <p><strong>Name:</strong> <span id="profileName">-</span></p>
+                <p><strong>Email:</strong> <span id="profileEmail">-</span></p>
+                <p><strong>Account Type:</strong> <span id="profileRole">-</span></p>
+            </div>
+
+            <button type="button" onclick="logout()">Logout</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

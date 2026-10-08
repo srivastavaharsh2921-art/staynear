@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard - StayNear</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-body">
+    <header class="dashboard-navbar">
+        <a class="logo" href="index.html">StayNear</a>
+        <nav>
+            <a href="owner-dashboard.html">Dashboard</a>
+            <a href="add-property.html">Add Property</a>
+            <a href="profile.html">Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+
+    <main class="owner-dashboard-main">
+        <section class="owner-welcome">
+            <p class="dashboard-label">OWNER DASHBOARD</p>
+            <h1 id="ownerGreeting">Welcome</h1>
+            <p>Manage listings for students searching near Uttarakhand universities.</p>
+        </section>
+
+        <section class="owner-stats">
+            <div class="owner-stat-card">
+                <span>Properties</span>
+                <strong id="ownerTotal">0</strong>
+            </div>
+
+            <div class="owner-stat-card">
+                <span>Active Listings</span>
+                <strong id="ownerActive">0</strong>
+            </div>
+
+            <div class="owner-stat-card">
+                <span>Student Enquiries</span>
+                <strong id="ownerEnquiries">0</strong>
+            </div>
+        </section>
+
+        <section class="owner-properties">
+            <div class="owner-section-heading">
+                <div>
+                    <p class="dashboard-label">YOUR PROPERTIES</p>
+                    <h2>Manage your listings</h2>
+                </div>
+
+                <a href="add-property.html" class="add-property-button">Add Property</a>
+            </div>
+
+            <div id="ownerPropertiesContainer" class="property-grid"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

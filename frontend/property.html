@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property - StayNear</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="property-page" data-property-page>
+    <header class="dashboard-navbar">
+        <a class="logo" href="index.html">StayNear</a>
+        <nav>
+            <a href="student-dashboard.html">Explore</a>
+            <a href="profile.html">Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+
+    <main class="property-page-main">
+        <a href="student-dashboard.html" class="back-link">&larr; Back to stays</a>
+
+        <section class="property-gallery">
+            <div class="property-large-image">
+                <span>StayNear</span>
+            </div>
+            <div class="property-small-images">
+                <div>Room</div>
+                <div>Bath</div>
+                <div>Desk</div>
+            </div>
+        </section>
+
+        <div id="propertyDynamicContent">
+            <section class="property-header">
+                <div>
+                    <p class="dashboard-label">STUDENT ACCOMMODATION</p>
+                    <h1 id="propertyTitle">Loading property</h1>
+                    <p id="propertyLocation" class="property-page-location">-</p>
+                    <p id="propertyUniversity" class="property-page-location">-</p>
+                </div>
+
+                <div class="property-price-box">
+                    <strong id="propertyPrice">Rs 0</strong>
+                    <span>/ month</span>
+                </div>
+            </section>
+
+            <div class="property-layout">
+                <div class="property-main-content">
+                    <section class="property-info-section">
+                        <h2>About this property</h2>
+                        <p id="propertyDescription">Loading details...</p>
+                    </section>
+
+                    <section class="property-info-section">
+                        <h2>Amenities</h2>
+                        <div id="propertyAmenities" class="amenities-grid"></div>
+                    </section>
+
+                    <section class="property-info-section">
+                        <h2>Room details</h2>
+                        <div class="room-details">
+                            <div>
+                                <span>Room type</span>
+                                <strong id="propertyRoomType">-</strong>
+                            </div>
+                            <div>
+                                <span>Property type</span>
+                                <strong id="propertyType">-</strong>
+                            </div>
+                            <div>
+                                <span>Status</span>
+                                <strong>Available</strong>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="property-sidebar">
+                    <div class="owner-card">
+                        <p class="dashboard-label">PROPERTY OWNER</p>
+                        <div class="owner-info">
+                            <div id="ownerInitial" class="owner-avatar">S</div>
+                            <div>
+                                <h3 id="ownerName">Property Owner</h3>
+                                <p id="ownerEmail">-</p>
+                            </div>
+                        </div>
+
+                        <button id="contactOwnerBtn" class="contact-owner-button">Contact Owner</button>
+                        <p class="contact-note">Always visit and verify the stay before making any payment.</p>
+                    </div>
+
+                    <div class="safety-card">
+                        <strong>StayNear Safety</strong>
+                        <p>Check rent, distance, food, house rules and deposit terms directly with the owner.</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
