@@ -9,10 +9,34 @@ const connectDB = require("./config/db");
 dotenv.config();
 
 const app = express();
+const allowedOrigins = [
+    "https://staynearr.netlify.app",
+    "http://localhost:3000",
+    "http://localhost:5000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5000"
+];
 
 // Middleware
-app.use(cors());
+app.use(
+    cors({
+        origin(origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+                return;
+            }
+
+            callback(new Error("Not allowed by CORS"));
+        }
+    })
+);
 app.use(express.json());
+
+app.get("/api/health", (req, res) => {
+    res.json({
+        message: "StayNear backend is running!"
+    });
+});
 
 app.use(async (req, res, next) => {
     if (req.path.startsWith("/api")) {
@@ -31,12 +55,6 @@ app.use(async (req, res, next) => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/properties", propertyRoutes);
-
-app.get("/api/health", (req, res) => {
-    res.json({
-        message: "StayNear backend is running!"
-    });
-});
 
 app.use(express.static(path.join(__dirname, "../../frontend")));
 
