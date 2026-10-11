@@ -1,4 +1,4 @@
-const API_BASE = "https://staynear-backend-6gdl.onrender.com/api";
+const API_BASE = "https://staynearbackend.vercel.app/api";
 
 const UTTARAKHAND_UNIVERSITIES = [
     "Dev Bhoomi Uttarakhand University",
@@ -263,7 +263,7 @@ async function loadPropertyDetails() {
     const page = document.querySelector("[data-property-page]");
     if (!page) return;
 
-    requireLogin("student");
+    requireLogin();
 
     const id = new URLSearchParams(window.location.search).get("id");
     const title = document.getElementById("propertyTitle");
