@@ -1,4 +1,17 @@
-const API_BASE = "https://staynearbackend.vercel.app/api";
+const API_BASE = (() => {
+    const configuredBase =
+        window.STAYNEAR_API_BASE || localStorage.getItem("staynearApiBase");
+
+    if (configuredBase) {
+        return configuredBase.replace(/\/$/, "");
+    }
+
+    const isLocal =
+        window.location.protocol === "file:" ||
+        ["localhost", "127.0.0.1"].includes(window.location.hostname);
+
+    return isLocal ? "http://localhost:5000/api" : "/api";
+})();
 
 const UTTARAKHAND_UNIVERSITIES = [
     "Dev Bhoomi Uttarakhand University",

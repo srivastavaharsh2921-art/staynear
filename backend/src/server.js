@@ -6,6 +6,7 @@ const path = require("path");
 const authRoutes = require("./routes/auth.routes");
 const propertyRoutes = require("./routes/property.routes");
 const connectDB = require("./config/db");
+dotenv.config({ path: path.join(__dirname, "../.env") });
 dotenv.config();
 
 const app = express();
@@ -17,11 +18,19 @@ const allowedOrigins = [
     "http://127.0.0.1:5000"
 ];
 
+const isAllowedOrigin = (origin) => {
+    if (!origin) return true;
+    if (allowedOrigins.includes(origin)) return true;
+    if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return true;
+    if (origin.endsWith(".netlify.app") || origin.endsWith(".vercel.app")) return true;
+    return false;
+};
+
 // Middleware
 app.use(
     cors({
         origin(origin, callback) {
-            if (!origin || allowedOrigins.includes(origin)) {
+            if (isAllowedOrigin(origin)) {
                 callback(null, true);
                 return;
             }

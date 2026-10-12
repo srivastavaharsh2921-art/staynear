@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Property = require("../models/property.model");
 
 const addProperty = async (req, res) => {
@@ -107,7 +108,15 @@ const getMyProperties = async (req, res) => {
 
 const getPropertyById = async (req, res) => {
     try {
-        const property = await Property.findById(req.params.id);
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({
+                message: "Property not found"
+            });
+        }
+
+        const property = await Property.findById(id);
 
         if (!property) {
             return res.status(404).json({
@@ -128,6 +137,12 @@ const getPropertyById = async (req, res) => {
 const deleteProperty = async (req, res) => {
     try {
         const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({
+                message: "Property not found"
+            });
+        }
 
         const property = await Property.findById(id);
 

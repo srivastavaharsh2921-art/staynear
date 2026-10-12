@@ -7,6 +7,21 @@
 - Build command: leave empty, or use `npm run vercel-build`
 - Output directory: leave empty
 
+## Separate frontend and backend projects
+
+If deploying the folders separately:
+
+- Backend project root: `backend`
+- Frontend project root: `frontend`
+- Redeploy the backend first, then redeploy the frontend
+
+The frontend calls `/api/*` on its own domain. `frontend/vercel.json` proxies those
+requests to `https://staynearbackend.vercel.app/api/*`, and `backend/vercel.json`
+routes `/api/*` into the Express app.
+
+If your backend Vercel domain is different, update the destination in
+`frontend/vercel.json`.
+
 ## Environment variables
 
 Add these in Vercel Project Settings -> Environment Variables:
