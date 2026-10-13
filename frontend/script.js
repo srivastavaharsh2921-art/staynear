@@ -64,10 +64,17 @@ async function apiFetch(path, options = {}) {
         headers
     });
 
-    const data = await response.json().catch(() => ({}));
+    const contentType = response.headers.get("content-type") || "";
+    const data = contentType.includes("application/json")
+        ? await response.json().catch(() => ({}))
+        : {};
 
     if (!response.ok) {
-        throw new Error(data.message || "Something went wrong");
+        const fallbackMessage = response.status === 404
+            ? "API route not found. Check that the backend is deployed and /api is routed correctly."
+            : "Something went wrong. Please try again.";
+
+        throw new Error(data.message || fallbackMessage);
     }
 
     return data;
