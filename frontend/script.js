@@ -1,17 +1,23 @@
 const API_BASE = (() => {
     const configuredBase =
-        window.STAYNEAR_API_BASE || localStorage.getItem("staynearApiBase");
+        window.STAYNEAR_API_BASE ||
+        localStorage.getItem("staynearApiBase");
 
     if (configuredBase) {
-        return configuredBase.replace(/\/$/, "");
+        return configuredBase.replace(/\/+$/, "");
     }
 
     const isLocal =
         window.location.protocol === "file:" ||
         ["localhost", "127.0.0.1"].includes(window.location.hostname);
 
-    return isLocal ? "http://localhost:5000/api" : "/api";
+    if (isLocal) {
+        return "http://localhost:5000/api";
+    }
+
+    return "https://staynear-backend.vercel.app/api";
 })();
+
 
 const UTTARAKHAND_UNIVERSITIES = [
     "Dev Bhoomi Uttarakhand University",
