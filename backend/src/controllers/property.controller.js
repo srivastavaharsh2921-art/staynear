@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Property = require("../models/property.model");
+const LAUNCH_UNIVERSITY = "Dev Bhoomi Uttarakhand University (DBUU)";
 
 const addProperty = async (req, res) => {
     try {
@@ -7,7 +8,6 @@ const addProperty = async (req, res) => {
             title,
             type,
             roomType,
-            university,
             location,
             price,
             description,
@@ -15,9 +15,9 @@ const addProperty = async (req, res) => {
             amenities
         } = req.body;
 
-        if (!title || !type || !roomType || !university || !location || !price) {
+        if (!title || !type || !roomType || !location || !price) {
             return res.status(400).json({
-                message: "Please provide title, type, room type, university, location and price"
+                message: "Please provide title, type, room type, location and price"
             });
         }
 
@@ -28,7 +28,8 @@ const addProperty = async (req, res) => {
             title: title.trim(),
             type,
             roomType,
-            university: university.trim(),
+            // New listings are associated with the single launch institution.
+            university: LAUNCH_UNIVERSITY,
             location: location.trim(),
             price: Number(price),
             description: description || "",
@@ -52,15 +53,18 @@ const addProperty = async (req, res) => {
 
 const getProperties = async (req, res) => {
     try {
-        const { location, university, maxPrice, roomType, ownerId } = req.query;
-        const query = {};
+        const { location, maxPrice, roomType, ownerId } = req.query;
+        // Keep legacy records untouched while limiting student search to DBUU listings.
+        const query = {
+            university: {
+                $regex: "^Dev Bhoomi Uttarakhand University( \\(DBUU\\))?$",
+                $options: "i"
+            },
+            isAvailable: true
+        };
 
         if (location) {
             query.location = { $regex: location, $options: "i" };
-        }
-
-        if (university) {
-            query.university = { $regex: university, $options: "i" };
         }
 
         if (maxPrice) {

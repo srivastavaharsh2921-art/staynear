@@ -19,23 +19,7 @@ const API_BASE = (() => {
 })();
 
 
-const UTTARAKHAND_UNIVERSITIES = [
-    "Dev Bhoomi Uttarakhand University",
-    "Graphic Era Deemed to be University",
-    "UPES Dehradun",
-    "Doon University",
-    "Uttarakhand Technical University",
-    "Uttaranchal University",
-    "IMS Unison University",
-    "Quantum University",
-    "Swami Rama Himalayan University",
-    "Hemvati Nandan Bahuguna Garhwal University",
-    "Kumaun University",
-    "Sri Dev Suman Uttarakhand University",
-    "Gurukula Kangri University",
-    "Motherhood University",
-    "University of Patanjali"
-];
+const LAUNCH_UNIVERSITY = "Dev Bhoomi Uttarakhand University (DBUU)";
 
 const session = {
     get user() {
@@ -136,20 +120,24 @@ function logout() {
     window.location.href = "index.html";
 }
 
-function populateUniversitySelect(selectId, includeAny = false) {
-    const select = document.getElementById(selectId);
-    if (!select) return;
+function isLaunchUniversity(university) {
+    return /^Dev Bhoomi Uttarakhand University(?:\s+\(DBUU\))?$/i.test(
+        String(university || "").replace(/\s+/g, " ").trim()
+    );
+}
 
-    select.innerHTML = includeAny
-        ? '<option value="">Any university</option>'
-        : '<option value="">Select university</option>';
+function propertyUniversityLabel(university) {
+    return isLaunchUniversity(university) ? LAUNCH_UNIVERSITY : "Institution needs review";
+}
 
-    UTTARAKHAND_UNIVERSITIES.forEach((university) => {
-        const option = document.createElement("option");
-        option.value = university;
-        option.textContent = university;
-        select.appendChild(option);
-    });
+function propertyImage(property, className = "") {
+    const imageUrl = Array.isArray(property.images)
+        ? property.images.find((image) => /^https?:\/\//i.test(image))
+        : "";
+
+    return imageUrl
+        ? `<img class="${className}" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(property.title)}" loading="lazy">`
+        : `<div class="${className} property-image-placeholder" role="img" aria-label="No property photo available"><span>Photo not provided</span></div>`;
 }
 
 function renderAmenities(amenities = []) {
@@ -171,20 +159,19 @@ function propertyCard(property, isOwner = false) {
 
     return `
         <article class="property-card">
-            <div class="property-image">
-                <span>StayNear</span>
-            </div>
+            ${propertyImage(property, "property-image")}
             <div class="property-content">
                 <div class="property-top">
                     <h3>${escapeHtml(property.title)}</h3>
                     <strong>&#8377;${formatPrice(property.price)}</strong>
                 </div>
-                <p class="property-location">&#128205; ${escapeHtml(property.location)}</p>
-                <p class="property-university">${escapeHtml(property.university)}</p>
+                <p class="property-location">${escapeHtml(property.location)}</p>
+                <p class="property-university">${escapeHtml(propertyUniversityLabel(property.university))}</p>
                 <div class="property-tags">
                     ${renderAmenities(property.amenities)}
                     <span>${escapeHtml(property.roomType)}</span>
                     <span>${escapeHtml(property.type)}</span>
+                    ${isOwner ? `<span class="availability-tag">${property.isAvailable ? "Available" : "Unavailable"}</span>` : ""}
                 </div>
                 <div class="property-actions">
                     <a href="${detailLink}" class="view-property-button">View Property</a>
@@ -213,7 +200,7 @@ async function loadStudentProperties(params = {}) {
     requireLogin("student");
     propertyGrid.innerHTML = emptyState(
         "Loading stays",
-        "Finding rooms and PGs near Uttarakhand universities."
+        `Finding stays for ${LAUNCH_UNIVERSITY}.`
     );
 
     try {
@@ -229,7 +216,7 @@ async function loadStudentProperties(params = {}) {
         if (!properties.length) {
             propertyGrid.innerHTML = emptyState(
                 "No matching properties",
-                "Try another university, nearby location, budget or room type."
+                "Try another location, budget or room type."
             );
             return;
         }
@@ -311,12 +298,14 @@ async function loadPropertyDetails() {
 
         if (title) title.textContent = property.title;
         document.getElementById("propertyLocation").textContent = property.location;
-        document.getElementById("propertyUniversity").textContent = property.university;
+        document.getElementById("propertyUniversity").textContent = propertyUniversityLabel(property.university);
         document.getElementById("propertyPrice").textContent = `Rs ${formatPrice(property.price)}`;
         document.getElementById("propertyDescription").textContent =
             property.description || "The owner has not added a detailed description yet.";
         document.getElementById("propertyRoomType").textContent = property.roomType;
         document.getElementById("propertyType").textContent = property.type;
+        const statusValue = document.querySelector(".room-details div:last-child strong");
+        if (statusValue) statusValue.textContent = property.isAvailable ? "Available" : "Unavailable";
         document.getElementById("ownerName").textContent = property.ownerName;
         document.getElementById("ownerEmail").textContent = property.ownerEmail;
         document.getElementById("ownerInitial").textContent =
@@ -326,6 +315,16 @@ async function loadPropertyDetails() {
         amenities.innerHTML = (property.amenities.length ? property.amenities : ["Basic facilities"])
             .map((amenity) => `<div class="amenity"><span>${escapeHtml(amenity)}</span></div>`)
             .join("");
+
+        const gallery = document.querySelector(".property-gallery");
+        const images = Array.isArray(property.images)
+            ? property.images.filter((image) => /^https?:\/\//i.test(image))
+            : [];
+        if (gallery) {
+            gallery.innerHTML = images.length
+                ? `<img class="property-large-image" src="${escapeHtml(images[0])}" alt="${escapeHtml(property.title)}" loading="lazy">${images.length > 1 ? `<div class="property-small-images">${images.slice(1, 4).map((image, index) => `<img src="${escapeHtml(image)}" alt="${escapeHtml(property.title)} photo ${index + 2}" loading="lazy">`).join("")}</div>` : ""}`
+                : '<div class="property-image-placeholder property-large-image" role="img" aria-label="No property photos available"><span>No property photos provided</span></div>';
+        }
     } catch (error) {
         if (content) {
             content.innerHTML = emptyState("Could not load property", error.message);
@@ -334,9 +333,6 @@ async function loadPropertyDetails() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    populateUniversitySelect("searchUniversity", true);
-    populateUniversitySelect("propertyUniversity");
-
     const findStayBtn = document.getElementById("findStayBtn");
     if (findStayBtn) {
         findStayBtn.addEventListener("click", () => {
@@ -446,7 +442,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         title: document.getElementById("propertyName").value,
                         type: document.getElementById("propertyType").value,
                         roomType: document.getElementById("propertyRoom").value,
-                        university: document.getElementById("propertyUniversity").value,
+                        university: LAUNCH_UNIVERSITY,
                         location: document.getElementById("propertyLocation").value,
                         price: document.getElementById("propertyRent").value,
                         description: document.getElementById("propertyDescription").value,
@@ -468,7 +464,6 @@ document.addEventListener("DOMContentLoaded", () => {
         searchPropertyBtn.addEventListener("click", () => {
             loadStudentProperties({
                 location: document.getElementById("searchLocation").value.trim(),
-                university: document.getElementById("searchUniversity").value,
                 maxPrice: document.getElementById("searchBudget").value,
                 roomType: document.getElementById("searchRoom").value
             });
