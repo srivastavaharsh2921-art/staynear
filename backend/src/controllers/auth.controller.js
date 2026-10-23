@@ -151,7 +151,16 @@ const requestPasswordReset = async (req, res) => {
         }
     })();
 
-    if (!process.env.RESEND_API_KEY || !process.env.EMAIL_FROM || !frontendBaseUrlIsValid) {
+    const missingEmailConfig = [
+        !process.env.RESEND_API_KEY?.trim() && "RESEND_API_KEY",
+        !process.env.EMAIL_FROM?.trim() && "EMAIL_FROM",
+        !frontendBaseUrlIsValid && "FRONTEND_BASE_URL (missing or invalid)"
+    ].filter(Boolean);
+
+    if (missingEmailConfig.length > 0) {
+        console.error("[password-reset] Email configuration incomplete", {
+            missing: missingEmailConfig
+        });
         return res.status(503).json({
             message: "Password reset is temporarily unavailable. Please try again later."
         });

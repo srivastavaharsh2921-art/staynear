@@ -46,11 +46,15 @@ Before email configuration, the forgot-password endpoint returns a generic tempo
 
 ## Deploy and test password reset
 
-1. In the Resend dashboard, verify the sending domain/address and create an API key.
-2. In Vercel, open the existing **backend** project and set `RESEND_API_KEY`, `EMAIL_FROM`, and `FRONTEND_BASE_URL` for the Production environment. Set the frontend URL to `https://staynear-frontend.vercel.app` exactly. Add appropriate values to Preview/Development environments if those deployments should send email.
+1. In the Resend dashboard, verify a sending domain you own and create an API key.
+2. In Vercel, open the existing **backend** project and set `RESEND_API_KEY`, `EMAIL_FROM`, and `FRONTEND_BASE_URL` for the Production environment. Set the frontend URL to `https://staynear-frontend.vercel.app` exactly. Add appropriate values to Preview/Development environments if those deployments should send email. The backend reads these exact variable names; none belong in the frontend project.
 3. Redeploy the backend project with its existing `backend` project root. Confirm its deployment is healthy before continuing.
 4. Redeploy the existing **frontend** project with its existing `frontend` project root so `forgot-password.html`, `reset-password.html`, and the login link are published. No API base URL change is needed.
 5. Use a non-production test account and mailbox to request a reset. Confirm the email link opens the deployed frontend reset page, choose a strong password, and sign in with the new password.
+
+The sender in `EMAIL_FROM` must use a domain verified for sending in the same Resend account as `RESEND_API_KEY`. Resend's `resend.dev` sender is for testing; production password-reset emails to arbitrary student and owner addresses require your own verified sending domain. The current deployment's actual sender value and recipient restrictions could not be inspected from this workspace because the backend folder is not linked to a Vercel project. In Vercel, verify the sender domain in Resend and test delivery to the intended mailbox before launch.
+
+If the endpoint returns `Password reset is temporarily unavailable`, check the backend Vercel runtime logs for `[password-reset] Email configuration incomplete`. The log lists only missing/invalid variable names, never values. If configuration is complete but Resend rejects the send, `[password-reset] Resend send failed` records only a sanitized error name, status code, and message. Do not paste secrets or reset links into logs or support messages.
 
 Test invalid tokens by opening the reset page without a token or with a malformed token; the page should explain that the link is invalid. Test expired tokens in a non-production database by setting a test account's `passwordResetExpiresAt` to a past date after requesting a link, then submit the link; alternatively, wait until a link's 30-minute lifetime ends. Test one-time use by successfully resetting a non-production test account and submitting the same link again; the second attempt should be rejected. Do not alter production user records to simulate expiry or reuse.
 
