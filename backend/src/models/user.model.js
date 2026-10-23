@@ -18,6 +18,14 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        passwordResetTokenHash: {
+            type: String,
+            select: false
+        },
+        passwordResetExpiresAt: {
+            type: Date,
+            select: false
+        },
         role: {
             type: String,
             enum: ["student", "owner"],

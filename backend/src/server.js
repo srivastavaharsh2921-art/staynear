@@ -10,6 +10,8 @@ dotenv.config({ path: path.join(__dirname, "../.env") });
 dotenv.config();
 
 const app = express();
+// Vercel sits in front of this app; trust its single proxy hop for per-client rate limits.
+app.set("trust proxy", 1);
 const allowedOrigins = [
     "https://staynearr.netlify.app",
     "http://localhost:3000",

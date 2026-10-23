@@ -39,13 +39,13 @@ const session = {
     }
 };
 
-async function apiFetch(path, options = {}) {
+async function apiFetch(path, options = {}, authenticated = true) {
     const headers = {
         "Content-Type": "application/json",
         ...(options.headers || {})
     };
 
-    if (session.token) {
+    if (authenticated && session.token) {
         headers.Authorization = `Bearer ${session.token}`;
     }
 
@@ -92,6 +92,13 @@ function setButtonLoading(button, isLoading, text) {
     } else {
         button.textContent = button.dataset.originalText || button.textContent;
     }
+}
+
+function setAuthFeedback(element, message, state = "info") {
+    if (!element) return;
+    element.textContent = message;
+    element.dataset.state = state;
+    element.hidden = !message;
 }
 
 function redirectByRole(user) {
@@ -333,6 +340,80 @@ async function loadPropertyDetails() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    const forgotPasswordForm = document.getElementById("forgotPasswordForm");
+    if (forgotPasswordForm) {
+        forgotPasswordForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const button = forgotPasswordForm.querySelector("button[type='submit']");
+            const feedback = document.getElementById("forgotPasswordFeedback");
+            setAuthFeedback(feedback, "");
+            setButtonLoading(button, true, "Sending...");
+
+            try {
+                const data = await apiFetch("/auth/forgot-password", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        email: document.getElementById("forgotEmail").value.trim()
+                    })
+                }, false);
+                setAuthFeedback(feedback, data.message, "success");
+            } catch (error) {
+                setAuthFeedback(feedback, error.message, "error");
+            } finally {
+                setButtonLoading(button, false);
+            }
+        });
+    }
+
+    const resetPasswordForm = document.getElementById("resetPasswordForm");
+    if (resetPasswordForm) {
+        const token = new URLSearchParams(window.location.search).get("token") || "";
+        if (token) window.history.replaceState(null, "", window.location.pathname);
+        const feedback = document.getElementById("resetPasswordFeedback");
+        const loginLink = document.getElementById("resetLoginLink");
+
+        if (!/^[a-f0-9]{64}$/i.test(token)) {
+            resetPasswordForm.hidden = true;
+            setAuthFeedback(
+                feedback,
+                "This password reset link is invalid. Request a new link to continue.",
+                "error"
+            );
+        }
+
+        resetPasswordForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const button = resetPasswordForm.querySelector("button[type='submit']");
+            const password = document.getElementById("newPassword").value;
+            const confirmPassword = document.getElementById("confirmNewPassword").value;
+
+            if (password !== confirmPassword) {
+                setAuthFeedback(feedback, "The passwords do not match.", "error");
+                document.getElementById("confirmNewPassword").focus();
+                return;
+            }
+
+            setAuthFeedback(feedback, "");
+            setButtonLoading(button, true, "Updating...");
+
+            try {
+                const data = await apiFetch("/auth/reset-password", {
+                    method: "POST",
+                    body: JSON.stringify({ token, password, confirmPassword })
+                }, false);
+                resetPasswordForm.hidden = true;
+                if (loginLink) loginLink.hidden = false;
+                setAuthFeedback(feedback, data.message, "success");
+                resetPasswordForm.reset();
+                window.history.replaceState(null, "", window.location.pathname);
+            } catch (error) {
+                setAuthFeedback(feedback, error.message, "error");
+            } finally {
+                setButtonLoading(button, false);
+            }
+        });
+    }
+
     const findStayBtn = document.getElementById("findStayBtn");
     if (findStayBtn) {
         findStayBtn.addEventListener("click", () => {
